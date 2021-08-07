@@ -7,30 +7,40 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:helpers="using:SoarCraft.QYun.ArknightsAssetStudio.Helpers"
     xmlns:behaviors="using:SoarCraft.QYun.ArknightsAssetStudio.Behaviors"
+    xmlns:viewmodels="using:SoarCraft.QYun.ArknightsAssetStudio.ViewModels"
+    xmlns:converters="using:SoarCraft.QYun.ArknightsAssetStudio.Converters"
+    d:DataContext="{d:DesignInstance Type=viewmodels:ShellViewModel}"
+    mc:Ignorable="d"
     Loaded="OnLoaded"
     Style="{StaticResource PageStyle}">
 
+    <Page.Resources>
+        <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+    </Page.Resources>
+
     <NavigationView
         x:Name="navigationView"
-        IsBackButtonVisible="Visible"
+        OpenPaneLength="260"
+        IsBackButtonVisible="Collapsed"
         IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
-        SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
         IsSettingsVisible="True"
-        ExpandedModeThresholdWidth="1280"
+        IsPaneToggleButtonVisible="False"
+        SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
+        CompactModeThresholdWidth="4294967295"
         Header="{x:Bind ((ContentControl)ViewModel.Selected).Content, Mode=OneWay}"
         Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
+
         <NavigationView.MenuItems>
-            <!--
-            TODO WTS: Change the symbols for each item as appropriate for your app
-            More on Segoe UI Symbol icons: https://docs.microsoft.com/windows/uwp/style/segoe-ui-symbol-font
-            Or to use an IconElement instead of a Symbol see https://github.com/Microsoft/WindowsTemplateStudio/blob/release/docs/UWP/projectTypes/navigationpane.md
-            Edit String/en-US/Resources.resw: Add a menu item title for each page
-            -->
-            <NavigationViewItem x:Uid="Shell_OverView" Icon="Document" helpers:NavHelper.NavigateTo="SoarCraft.QYun.ArknightsAssetStudio.ViewModels.OverViewModel" />
-            <NavigationViewItem x:Uid="Shell_ListDetails" Icon="Document" helpers:NavHelper.NavigateTo="SoarCraft.QYun.ArknightsAssetStudio.ViewModels.ListDetailsViewModel" />
-            <NavigationViewItem x:Uid="Shell_DataGrid" Icon="Document" helpers:NavHelper.NavigateTo="SoarCraft.QYun.ArknightsAssetStudio.ViewModels.DataGridViewModel" />
-            <NavigationViewItem x:Uid="Shell_ContentGrid" Icon="Document" helpers:NavHelper.NavigateTo="SoarCraft.QYun.ArknightsAssetStudio.ViewModels.ContentGridViewModel" />
+            <NavigationViewItem x:Uid="Shell_OverView"
+                                helpers:NavHelper.NavigateTo="SoarCraft.QYun.ArknightsAssetStudio.ViewModels.OverViewModel" />
+            <NavigationViewItem x:Uid="Shell_ListDetails"
+                                helpers:NavHelper.NavigateTo="SoarCraft.QYun.ArknightsAssetStudio.ViewModels.ListDetailsViewModel" />
+            <NavigationViewItem x:Uid="Shell_DataGrid"
+                                helpers:NavHelper.NavigateTo="SoarCraft.QYun.ArknightsAssetStudio.ViewModels.DataGridViewModel" />
+            <NavigationViewItem x:Uid="Shell_ContentGrid"
+                                helpers:NavHelper.NavigateTo="SoarCraft.QYun.ArknightsAssetStudio.ViewModels.ContentGridViewModel" />
         </NavigationView.MenuItems>
+
         <NavigationView.HeaderTemplate>
             <DataTemplate>
                 <Grid>
@@ -41,6 +51,26 @@
                 </Grid>
             </DataTemplate>
         </NavigationView.HeaderTemplate>
+
+        <NavigationView.PaneHeader>
+            <Grid Padding="24,0,0,0">
+                <Image Source="{ThemeResource ArkLogo}"
+                       Height="100"
+                       Width="180"
+                       HorizontalAlignment="Left"
+                       Margin="0,8,0,10" />
+
+                <ToggleButton x:Name="DarkLightModeToggle"
+                              Content="Light and Dark"
+                              Click="DarkLightModeToggle_OnClick"
+                              IsChecked="{x:Bind Settings.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}"
+                              Style="{StaticResource DarkLightToggleTheme}"
+                              Margin="0,0,20,4"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Bottom" />
+            </Grid>
+        </NavigationView.PaneHeader>
+
         <i:Interaction.Behaviors>
             <behaviors:NavigationViewHeaderBehavior
                 DefaultHeader="{x:Bind ((ContentControl)ViewModel.Selected).Content, Mode=OneWay}">
@@ -56,8 +86,10 @@
                 </behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
             </behaviors:NavigationViewHeaderBehavior>
         </i:Interaction.Behaviors>
+
         <Grid>
             <Frame x:Name="shellFrame" />
         </Grid>
+
     </NavigationView>
 </Page>

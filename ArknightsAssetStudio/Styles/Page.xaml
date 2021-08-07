@@ -1,4 +1,4 @@
-﻿<ResourceDictionary
+<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
@@ -6,4 +6,14 @@
         <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
     </Style>
 
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <x:String x:Key="ArkLogo">ms-appx:///Assets/Arknights_Logo_Light.png</x:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Dark">
+            <x:String x:Key="ArkLogo">ms-appx:///Assets/Arknights_Logo_Dark.png</x:String>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+    
 </ResourceDictionary>
