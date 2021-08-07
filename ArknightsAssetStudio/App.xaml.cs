@@ -14,7 +14,6 @@ namespace SoarCraft.QYun.ArknightsAssetStudio {
     using Serilog;
     using Serilog.Core;
     using Services;
-    using TextureDecoder;
     using ViewModels;
     using Views;
     using UnhandledExceptionEventArgs = Microsoft.UI.Xaml.UnhandledExceptionEventArgs;
@@ -72,7 +71,6 @@ namespace SoarCraft.QYun.ArknightsAssetStudio {
             _ = services.AddSingleton<IAssetDataService, AssetDataService>();
             _ = services.AddSingleton<SettingsService>();
             _ = services.AddSingleton<AssetsManager>();
-            _ = services.AddSingleton<TextureDecoderService>();
             _ = services.AddSingleton<FBXHelpService>();
 
             // ViewModels

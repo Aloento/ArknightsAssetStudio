@@ -10,7 +10,6 @@ namespace SoarCraft.QYun.ArknightsAssetStudio.UnitTest {
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Services;
-    using TextureDecoder;
     using static Helpers;
 
     [TestClass]
@@ -20,8 +19,7 @@ namespace SoarCraft.QYun.ArknightsAssetStudio.UnitTest {
         public static void TryInitIoc() {
             if (!init) {
                 Ioc.Default.ConfigureServices(new ServiceCollection().AddMemoryCache().AddSingleton<CacheService>()
-                    .AddSingleton<SettingsService>().AddSingleton<TextureDecoderService>()
-                    .AddSingleton<FBXHelpService>().BuildServiceProvider());
+                    .AddSingleton<SettingsService>().AddSingleton<FBXHelpService>().BuildServiceProvider());
                 init = true;
             }
         }

@@ -1,16 +1,15 @@
 namespace SoarCraft.QYun.ArknightsAssetStudio.Extensions {
     using System.IO;
     using AssetReader.Unity3D.Objects.Texture2Ds;
-    using Converters;
     using Core.Entities;
     using SixLabors.ImageSharp;
     using SixLabors.ImageSharp.PixelFormats;
     using SixLabors.ImageSharp.Processing;
+    using SoarCraft.QYun.TextureDecoderNET;
 
     public static class Texture2DExtension {
         public static Image ConvertToImage(this Texture2D m_Texture2D, bool flip) {
-            var converter = new Texture2DConverter(m_Texture2D);
-            var bytes = converter.DecodeTexture2D();
+            _ = new ETC1Decoder(m_Texture2D.image_data.GetData(), (ulong)m_Texture2D.m_Width, (ulong)m_Texture2D.m_Height, out var bytes);
             if (bytes is { Length: > 0 }) {
                 var image = Image.LoadPixelData<Bgra32>(bytes, m_Texture2D.m_Width, m_Texture2D.m_Height);
                 if (flip) {
