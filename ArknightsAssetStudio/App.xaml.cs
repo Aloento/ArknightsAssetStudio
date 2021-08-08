@@ -75,7 +75,7 @@ namespace SoarCraft.QYun.ArknightsAssetStudio {
 
             // ViewModels
             _ = services.AddScoped<ShellViewModel>();
-            _ = services.AddSingleton<OverViewModel>();
+            _ = services.AddSingleton<LoadAssetsModel>();
             _ = services.AddScoped<ListDetailsViewModel>();
             _ = services.AddScoped<DataGridViewModel>();
             _ = services.AddScoped<ContentGridViewModel>();
@@ -83,7 +83,7 @@ namespace SoarCraft.QYun.ArknightsAssetStudio {
 
             // Views
             _ = services.AddScoped<ShellPage>();
-            _ = services.AddScoped<OverViewPage>();
+            _ = services.AddScoped<LoadAssetsPage>();
             _ = services.AddScoped<ListDetailsPage>();
             _ = services.AddScoped<DataGridPage>();
             _ = services.AddScoped<ContentGridPage>();

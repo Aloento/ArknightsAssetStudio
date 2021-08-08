@@ -12,7 +12,7 @@ namespace SoarCraft.QYun.ArknightsAssetStudio.Services {
         private readonly Dictionary<string, Type> _pages = new();
 
         public PageService() {
-            this.Configure<OverViewModel, OverViewPage>();
+            this.Configure<LoadAssetsModel, LoadAssetsPage>();
             this.Configure<ListDetailsViewModel, ListDetailsPage>();
             this.Configure<DataGridViewModel, DataGridPage>();
             this.Configure<ContentGridViewModel, ContentGridPage>();

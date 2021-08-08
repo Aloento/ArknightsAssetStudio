@@ -1,0 +1,99 @@
+<Page
+    x:Class="SoarCraft.QYun.ArknightsAssetStudio.Views.LoadAssetsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:SoarCraft.QYun.ArknightsAssetStudio.ViewModels"
+    xmlns:models="using:SoarCraft.QYun.ArknightsAssetStudio.Core.Models"
+    d:DataContext="{d:DesignInstance Type=viewmodels:LoadAssetsModel}"
+    mc:Ignorable="d"
+    Style="{StaticResource PageStyle}">
+
+    <Page.Resources>
+        <DataTemplate x:Key="LoadedListViewTemp" x:DataType="models:BundleItem">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="1"
+                           Text="{x:Bind CBAID}"
+                           x:Phase="1"
+                           Style="{ThemeResource BaseTextBlockStyle}"
+                           Margin="12,6,0,0" />
+                <TextBlock Grid.Column="1"
+                           Grid.Row="1"
+                           Text="{x:Bind Format(FileName, Count)}"
+                           x:Phase="2"
+                           Style="{ThemeResource BodyTextBlockStyle}"
+                           Margin="12,0,0,6" />
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Margin="{StaticResource MediumLeftRightMargin}"
+          Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+
+        <StackPanel Padding="20,0,0,0"
+                    HorizontalAlignment="Left">
+
+            <!--#region LoadABs-->
+            <StackPanel Name="LoadPanel"
+                        Loaded="LoadPanel_OnLoaded"
+                        Margin="{StaticResource XXSmallTopMargin}">
+                
+                <InfoBar Name="APKInfoBar"
+                         IsOpen="True"
+                         IsClosable="False"
+                         Severity="Warning"
+                         Margin="{StaticResource SmallTopBottomMargin}"
+                         Message="点击按钮加载本地ArkNights的APK包，然后在导航栏对应页面查看详情。若不本地加载，则会自动尝试在线加载">
+                    <InfoBar.Content>
+                        <Grid Margin="{StaticResource ButtonPadding}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Button Name="LoadAPKButton"
+                                    Click="LoadAPKButton_OnClick"
+                                    Content="Open APK" />
+
+                            <TextBlock Name="APKText"
+                                       Text="还未加载资源文件"
+                                       Grid.Column="1"
+                                       Margin="12,6,12,0" />
+                        </Grid>
+                    </InfoBar.Content>
+                </InfoBar>
+                
+                <InfoBar Name="LoadInfoBar"
+                         IsOpen="True"
+                         IsClosable="False"
+                         Margin="{StaticResource SmallTopBottomMargin}"
+                         Message="这里是已经加载到内存的AB文件，你也可以添加与明日方舟相关的额外AB包，无关的AB包请使用 UnityABStudio" />
+
+                <CommandBar Name="ListMenuBar"
+                            DefaultLabelPosition="Right">
+                    <AppBarButton Name="OpenFiles" Icon="OpenFile" Label="Files" />
+                    <AppBarButton Name="OpenFolder" Icon="NewFolder" Label="Folder" />
+                    <AppBarButton Name="EjectItems" Icon="Delete" Label="Ejects" />
+                </CommandBar>
+
+                <ListView Name="LoadedList"
+                          SelectionMode="Multiple"
+                          ItemsSource="{x:Bind ViewModel.bundleList}"
+                          ItemTemplate="{StaticResource LoadedListViewTemp}" />
+            </StackPanel>
+            <!--#endregion-->
+
+        </StackPanel>
+
+    </Grid>
+</Page>

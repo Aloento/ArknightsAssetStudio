@@ -1,25 +1,20 @@
 namespace SoarCraft.QYun.ArknightsAssetStudio.ViewModels {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Threading.Tasks;
     using Windows.Storage;
-    using Windows.UI.Core;
     using AssetReader;
-    using AssetReader.Entities.Enums;
     using AssetReader.Unity3D;
     using AssetReader.Unity3D.Objects;
     using CommunityToolkit.Mvvm.ComponentModel;
     using CommunityToolkit.Mvvm.DependencyInjection;
     using Contracts.ViewModels;
     using Core.Models;
-    using Extensions;
-    using Microsoft.UI.Dispatching;
     using Microsoft.UI.Xaml.Controls;
     using Serilog;
 
-    public class OverViewModel : ObservableRecipient, INavigationAware {
+    public class LoadAssetsModel : ObservableRecipient, INavigationAware {
         private readonly AssetsManager manager = Ioc.Default.GetRequiredService<AssetsManager>();
         private readonly ILogger logger = Ioc.Default.GetRequiredService<ILogger>();
 
@@ -85,69 +80,6 @@ namespace SoarCraft.QYun.ArknightsAssetStudio.ViewModels {
                 this.logger.Information($"{file?.CBAID} Released");
             }
         }
-
-        internal Task<int> QuickExportAsync(StorageFolder saveFolder, TextBlock quickText) => Task.Run(async () => {
-            var objList = new List<UObject>();
-            var filtered = new List<UObject>();
-            var timeOuter = DateTime.Now.AddMinutes(3);
-
-            foreach (var bundle in this.bundleList) {
-                objList.AddRange(bundle.Serialized.Objects);
-            }
-
-            #region Filters
-
-            if (this.ExpAnimator)
-                filtered.AddRange(objList.Where(x => x.type == ClassIDType.Animator).ToList());
-
-            if (this.ExpAudioClip)
-                filtered.AddRange(objList.Where(x => x.type == ClassIDType.AudioClip).ToList());
-
-            if (this.ExpFont)
-                filtered.AddRange(objList.Where(x => x.type == ClassIDType.Font).ToList());
-
-            if (this.ExpMesh)
-                filtered.AddRange(objList.Where(x => x.type == ClassIDType.Mesh).ToList());
-
-            if (this.ExpMonoBehaviour)
-                filtered.AddRange(objList.Where(x => x.type == ClassIDType.MonoBehaviour).ToList());
-
-            if (this.ExpMovieTexture)
-                filtered.AddRange(objList.Where(x => x.type == ClassIDType.MovieTexture).ToList());
-
-            if (this.ExpShader)
-                filtered.AddRange(objList.Where(x => x.type == ClassIDType.Shader).ToList());
-
-            if (this.ExpSprite)
-                filtered.AddRange(objList.Where(x => x.type == ClassIDType.Sprite).ToList());
-
-            if (this.ExpTexture2D)
-                filtered.AddRange(objList.Where(x => x.type == ClassIDType.Texture2D).ToList());
-
-            if (this.ExpTextAsset)
-                filtered.AddRange(objList.Where(x => x.type == ClassIDType.TextAsset).ToList());
-
-            if (this.ExpVideoClip)
-                filtered.AddRange(objList.Where(x => x.type == ClassIDType.VideoClip).ToList());
-
-            #endregion
-
-            if (DateTime.Now.CompareTo(timeOuter) < 0) {
-                var i = 0;
-                foreach (var item in filtered.Select(x => new AssetItem(x, out _, out _))) {
-                    _ = quickText.DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low,
-                        () => quickText.Text = $"一共{filtered.Count}个任务，进行到第{++i}个");
-
-                    _ = await item.ExportConvertFile(saveFolder.Path);
-                }
-            } else {
-                this.logger.Error($"QuickExport Timeout, " +
-                                  $"{filtered.Count} items need to export, ");
-                return -1;
-            }
-
-            return filtered.Count;
-        });
 
         private void ClearList() {
             foreach (var bundle in this.bundleList) {
@@ -245,7 +177,7 @@ namespace SoarCraft.QYun.ArknightsAssetStudio.ViewModels {
             });
 
         void INavigationAware.OnNavigatedTo(object parameter) {
-            this.logger.Debug("NavigatedTo OverViewPage");
+            this.logger.Debug("NavigatedTo LoadAssetsPage");
         }
 
         void INavigationAware.OnNavigatedFrom() {

@@ -31,11 +31,11 @@
         Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
 
         <NavigationView.MenuItems>
-            <NavigationViewItem x:Uid="Shell_OverView"
-                                helpers:NavHelper.NavigateTo="SoarCraft.QYun.ArknightsAssetStudio.ViewModels.OverViewModel" />
-            <NavigationViewItem x:Uid="Shell_ListDetails"
+            <NavigationViewItem Content="LoadAssets"
+                                helpers:NavHelper.NavigateTo="SoarCraft.QYun.ArknightsAssetStudio.ViewModels.LoadAssetsModel" />
+            <NavigationViewItem Content="Operators"
                                 helpers:NavHelper.NavigateTo="SoarCraft.QYun.ArknightsAssetStudio.ViewModels.ListDetailsViewModel" />
-            <NavigationViewItem x:Uid="Shell_DataGrid"
+            <NavigationViewItem Content="Enemies"
                                 helpers:NavHelper.NavigateTo="SoarCraft.QYun.ArknightsAssetStudio.ViewModels.DataGridViewModel" />
             <NavigationViewItem x:Uid="Shell_ContentGrid"
                                 helpers:NavHelper.NavigateTo="SoarCraft.QYun.ArknightsAssetStudio.ViewModels.ContentGridViewModel" />

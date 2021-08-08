@@ -12,7 +12,7 @@ namespace SoarCraft.QYun.ArknightsAssetStudio.Activation {
         }
 
         protected override async Task HandleInternalAsync(LaunchActivatedEventArgs args) {
-            _ = this._navigationService.NavigateTo(typeof(OverViewModel).FullName, args.Arguments);
+            _ = this._navigationService.NavigateTo(typeof(LoadAssetsModel).FullName, args.Arguments);
             await Task.CompletedTask;
         }
 
